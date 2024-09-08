@@ -1,0 +1,39 @@
+﻿using Microsoft.EntityFrameworkCore;
+using NLayer.Core;
+using NLayer.Repository.Configurations;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace NLayer.Repository
+{
+    public class AppDbContext : DbContext
+    {
+        //startup dosyasından sql yolunu vermek için;
+        public AppDbContext(DbContextOptions<AppDbContext> options):base(options)
+        {
+            
+        }
+
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Product> Products { get; set; }
+
+
+        //ProductFeature kapatıp ProductFeauture sadece Product üzerinden yüklensin diyebilirsin:
+        //var p = new Product() {ProductFeature = new ProductFeature(){}}
+        public DbSet<ProductFeature> ProductFeatures { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //Git IEntityTypeConfiguration implemente eden tüm classlardaki configurasyonları al.
+            //GetExecutingAssembly() ; çalışmış olduğum assembly'yi tara.
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+            ////Tek tek vermek istersek , Ama yüzlerce configure dosyan olabileceği için yukarıdakini kullan. 
+            //modelBuilder.ApplyConfiguration(new ProductConfiguration());
+        }
+    }
+}

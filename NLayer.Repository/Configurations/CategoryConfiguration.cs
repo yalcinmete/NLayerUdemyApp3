@@ -1,0 +1,24 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using NLayer.Core;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace NLayer.Repository.Configurations
+{
+    //AppDbContext'de yazdığımız onModelCreating metodunu doldurup sayfası pisletmemek için ayrı ayrı bu şekilde yazıyoruz.
+    public class CategoryConfiguration : IEntityTypeConfiguration<Category>
+    {
+        public void Configure(EntityTypeBuilder<Category> builder)
+        {
+            //EF core category classındaki Id'den Id'yi anlayacak zaten de biz öğrenmek için yazdık.
+            builder.HasKey(x => x.Id);
+            builder.Property(x=>x.Id).UseIdentityColumn();
+            builder.Property(x => x.Name).IsRequired().HasMaxLength(50);
+            builder.ToTable("Categories");
+        }
+    }
+}
