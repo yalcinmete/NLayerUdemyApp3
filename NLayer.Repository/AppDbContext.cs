@@ -34,6 +34,24 @@ namespace NLayer.Repository
 
             ////Tek tek vermek istersek , Ama yüzlerce configure dosyan olabileceği için yukarıdakini kullan. 
             //modelBuilder.ApplyConfiguration(new ProductConfiguration());
+
+           //Buradan da seeddata verebilirsin zaten buradan verebilirsin ama burayı kirletmemek için başka yerden(CategorySeed,ProductSeed) seeddataları verdik
+            modelBuilder.Entity<ProductFeature>().HasData(new ProductFeature()
+            {
+                Id = 1,
+                Color = "Kırmızı",
+                Height = 100,
+                Width = 200,
+                ProductId = 1,
+            },
+            new ProductFeature()
+            {
+                Id = 2,
+                Color = "Mavi",
+                Height = 300,
+                Width = 500,
+                ProductId = 2,
+            });
         }
     }
 }
