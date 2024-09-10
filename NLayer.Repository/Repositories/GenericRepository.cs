@@ -38,7 +38,7 @@ namespace NLayer.Repository.Repositories
             return await _dbSet.AnyAsync(expression);
         }
 
-        public IQueryable<T> GetAll(Expression<Func<T, bool>> expression)
+        public IQueryable<T> GetAll()
         {
             //AsNoTracking() diyorum ki EF çekmiş olduğu dataları belleğe alıp izlemesin daha performanslı calıssın. Entityleri sadece çekiyoruz üzerinden işlem yapmıyoruz bu nedenle izlemesine gerek yok.
             return _dbSet.AsNoTracking().AsQueryable();

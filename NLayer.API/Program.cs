@@ -1,9 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using NLayer.Core.Repositories;
+using NLayer.Core.Services;
 using NLayer.Core.UnitOfWorks;
 using NLayer.Repository;
 using NLayer.Repository.Repositories;
 using NLayer.Repository.UnitOfWorks;
+using NLayerService.Mapping;
+using NLayerService.Services;
 using System.Reflection;
 
 namespace NLayer.API
@@ -25,6 +28,8 @@ namespace NLayer.API
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             //IGenericRepository birden çok T almýþ olsaydý : IGenericRepository<,,,> þeklinde yazýcaktýk.
             builder.Services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
+            builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));
+            builder.Services.AddAutoMapper(typeof(MapProfile));
 
             //Video80 Migrations.
             builder.Services.AddDbContext<AppDbContext>(x =>

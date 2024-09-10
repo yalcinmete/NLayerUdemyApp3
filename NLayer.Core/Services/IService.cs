@@ -17,9 +17,9 @@ namespace NLayer.Core.Services
 
         Task<bool> AnyAsync(Expression<Func<T, bool>> expression);
 
-        Task AddAsync(T entity);
+        Task<T> AddAsync(T entity);
 
-        Task AddRangeAsync(IEnumerable<T> entities);
+        Task<IEnumerable<T>> AddRangeAsync(IEnumerable<T> entities);
 
         //Servis kullandığım yerlerde SaveChangeAsync() kullanacağım için Update,Remove RemoveRange dönüş tipleerini Task'a çevirdik.GenericRepository'de Task değil void kullanmıştık.
         Task UpdateAsync(T entity);
