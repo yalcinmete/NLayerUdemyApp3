@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NLayer.API.Filters;
 using NLayer.Core.DTOs;
 using NLayer.Core.Models;
 using NLayer.Core.Services;
@@ -42,6 +43,8 @@ namespace NLayer.API.Controllers
             return CreateActionResult(CustomResponseDto<List<ProductDto>>.Succes(200, productsDtos));
         }
 
+        //[NotFoundFilter],  [ValidateFilter] gibi Filter sınıfından miras almıyor. IAsyncActionFilter sınıfından miras aldığı için ve DI'inda parametre geçtiği için bunu direkt [NotFoundFilter] şeklinde kullanamıyoruz.[ServiceFilter] yardımıyla kullanabiliyoruz.
+        [ServiceFilter(typeof(NotFoundFilter<Product>))]
         //GET /api/products/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)

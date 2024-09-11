@@ -1,4 +1,8 @@
+using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NLayer.API.Filters;
+using NLayer.API.Middlewares;
 using NLayer.Core.Repositories;
 using NLayer.Core.Services;
 using NLayer.Core.UnitOfWorks;
@@ -7,6 +11,7 @@ using NLayer.Repository.Repositories;
 using NLayer.Repository.UnitOfWorks;
 using NLayerService.Mapping;
 using NLayerService.Services;
+using NLayerService.Validations;
 using System.Reflection;
 
 namespace NLayer.API
@@ -19,10 +24,22 @@ namespace NLayer.API
 
             // Add services to the container.
 
-            builder.Services.AddControllers();
+            //builder.Services.AddControllers();
+            //builder.Services.AddControllers().AddFluentValidation(x=>x.RegisterValidatorsFromAssemblyContaining<ProductDtoValidator>());
+            builder.Services.AddControllers(options =>  options.Filters.Add(new ValidateFilterAttribute()) ).AddFluentValidation(x=>x.RegisterValidatorsFromAssemblyContaining<ProductDtoValidator>());
+
+            //FluentValidation Library-2 Kendi filterimizin nesnesinin dönmesini istiyorsak default dönen deðeri pasif'e çekmeliyiz.Bu durum sadece API için geçerli.
+            builder.Services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            //Filterinda DI geçiyorsan program.cs içerisinde bunu belirtmelisin.
+            builder.Services.AddScoped(typeof(NotFoundFilter<>));
 
             //Video80Migrations
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -57,6 +74,8 @@ namespace NLayer.API
             }
 
             app.UseHttpsRedirection();
+
+            app.UseCustomException(); //GlobalExceptionHandler
 
             app.UseAuthorization();
 
