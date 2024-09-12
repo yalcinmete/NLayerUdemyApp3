@@ -40,6 +40,7 @@ namespace NLayer.API
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddMemoryCache(); //Caching için.
 
             //Filterinda DI geçiyorsan program.cs içerisinde bunu belirtmelisin.
             builder.Services.AddScoped(typeof(NotFoundFilter<>));
@@ -73,6 +74,8 @@ namespace NLayer.API
 
             builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder => containerBuilder.RegisterModule(new RepoServisModule()));
             //birden fazla module olursa aþaðýya doðru kopyala yapýstýr yaz.
+
+            
 
             var app = builder.Build();
 

@@ -9,7 +9,8 @@ using NLayerService.Mapping;
 using NLayerService.Services;
 using System.Reflection;
 using Module = Autofac.Module;
-    
+using NLayer.Caching;
+
 namespace NLayer.API.Modules
 {
     public class RepoServisModule : Module
@@ -45,6 +46,9 @@ namespace NLayer.API.Modules
             //Transient : Herhangi bir classın constructure'ında o interface nerede geçildiyse her seferinde yeni bir instance(nesne) oluştur.
             //InstancePerLifetimeScope => Scope
             //InstancePerDependency   => transient 'e karşılık gelir
+
+
+            builder.RegisterType<ProductServiceWithCaching>().As<IProductService>();
 
         }
     }
