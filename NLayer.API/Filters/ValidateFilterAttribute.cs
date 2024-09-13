@@ -4,6 +4,7 @@ using NLayer.Core.DTOs;
 
 namespace NLayer.API.Filters
 {
+    //API'nin tümünde çalışacak bu Validate.Bunun için program.cs'de de eklemesini yaptık.
     public class ValidateFilterAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuting(ActionExecutingContext context)
