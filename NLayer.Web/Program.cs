@@ -29,6 +29,9 @@ namespace NLayer.Web
                 });
             });
 
+            //Filter'a DI geçiyorsan program.cs'de bunu belirtmelisin.
+            builder.Services.AddScoped(typeof(NotFoundFilter<>));
+
             //AutoFac
             builder.Host.UseServiceProviderFactory
                 (new AutofacServiceProviderFactory());
