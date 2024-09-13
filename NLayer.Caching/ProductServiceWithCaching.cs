@@ -14,6 +14,8 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
+//MVC projesine geçtiğimizde burayı caching katmanını kullanmıyoruz.IProductService Interface'sini değiştirdiğimiz için implemente aldığı metotları düzenledik.
+
 namespace NLayer.Caching
 {
     public class ProductServiceWithCaching : IProductService
@@ -88,12 +90,14 @@ namespace NLayer.Caching
             return Task.FromResult(product);
         }
 
-        public Task<CustomResponseDto<List<ProductWithCategoryDto>>> GetProductsWithCategory()
+
+        //MVC projesinde artık customResponseDto kullanmıyoruz.
+        public Task<List<ProductWithCategoryDto>> GetProductsWithCategory()
         {
             var products = _memoryCache.Get<IEnumerable<Product>>(CacheProductKey);
             var productsWithCategoryDto = _mapper.Map<List<ProductWithCategoryDto>>(products);
 
-            return Task.FromResult(CustomResponseDto<List<ProductWithCategoryDto>>.Succes(200, productsWithCategoryDto));
+            return Task.FromResult(productsWithCategoryDto);
         }
 
         public async Task RemoveAsync(Product entity)

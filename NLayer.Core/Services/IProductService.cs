@@ -12,6 +12,10 @@ namespace NLayer.Core.Services
     {
         //Task<List<ProductWithCategoryDto>> GetProductsWithCategory();
         //CustomResponseDto dönelim ki tam API 'nin istediği nesneyi dönelim.
-        Task<CustomResponseDto<List<ProductWithCategoryDto>>> GetProductsWithCategory();
+
+        //MVC projesine geçtik. CustomResponseDto dönmemize gerek yok.
+        //Task<CustomResponseDto<List<ProductWithCategoryDto>>> GetProductsWithCategory();
+
+        Task<List<ProductWithCategoryDto>> GetProductsWithCategory();
     }
 }

@@ -1,3 +1,11 @@
+using Autofac.Extensions.DependencyInjection;
+using Autofac;
+using NLayer.Web.Modules;
+using Microsoft.EntityFrameworkCore;
+using NLayer.Repository;
+using System.Reflection;
+using NLayerService.Mapping;
+
 namespace NLayer.Web
 {
     public class Program
@@ -8,6 +16,23 @@ namespace NLayer.Web
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddAutoMapper(typeof(MapProfile));
+
+            builder.Services.AddDbContext<AppDbContext>(x =>
+            {
+                x.UseSqlServer(builder.Configuration.GetConnectionString("SqlConnection"), option =>
+                {
+                    //option sebebi ; AppDbContext assembly'si API katmanýnda olmadýðý için, AppDbContext'in yerini EF'a söylüyoruz.
+                    option.MigrationsAssembly(Assembly.GetAssembly(typeof(AppDbContext)).GetName().Name);
+                });
+            });
+
+            //AutoFac
+            builder.Host.UseServiceProviderFactory
+                (new AutofacServiceProviderFactory());
+
+            builder.Host.ConfigureContainer<ContainerBuilder>(containerBuilder => containerBuilder.RegisterModule(new RepoServisModule()));
+            //birden fazla module olursa aþaðýya doðru kopyala yapýstýr yaz.
 
             var app = builder.Build();
 
