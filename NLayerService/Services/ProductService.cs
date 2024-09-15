@@ -32,12 +32,13 @@ namespace NLayerService.Services
         //}
 
         //Daha önceden API ile çalıştığımız için bu servisten CustomResponseDto<List<ProductWithCategoryDto>> dönüyorduk.Artık MVC projemizde customresponseDto'ya ihtiyacımız yok.Direk  List<ProductWithCategoryDto> ile çalışabiliriz.
-        public async Task<List<ProductWithCategoryDto>> GetProductsWithCategory()
+        //MVC-API Haberleşmesinde Task<List<ProductWithCategoryDto>> => Task<CustomResponseDto<List<ProductWithCategoryDto>>> çevirdik.Tabi interface'inde de güncelleştirmeyi yapman gerekir.
+        public async Task<CustomResponseDto<List<ProductWithCategoryDto>>> GetProductsWithCategory()
         {
             var products = await _productRepository.GetProductsWithCategory();
             var productsDto = _mapper.Map<List<ProductWithCategoryDto>>(products);
             //CustomResponseDto<List<ProductWithCategoryDto>> ile Api'nin istediği nesneyi dönmüş oldum.
-            return productsDto;
+            return CustomResponseDto<List<ProductWithCategoryDto>>.Succes(200,productsDto);
         }
     }
 }

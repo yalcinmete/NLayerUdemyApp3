@@ -16,6 +16,8 @@ namespace NLayer.Core.Services
         //MVC projesine geçtik. CustomResponseDto dönmemize gerek yok.
         //Task<CustomResponseDto<List<ProductWithCategoryDto>>> GetProductsWithCategory();
 
-        Task<List<ProductWithCategoryDto>> GetProductsWithCategory();
+        //MVC-API Haberleşmesi projesinde API Task<CustomResponseDto<List<ProductWithCategoryDto>>> beklediği için Task<CustomResponseDto<List<ProductWithCategoryDto>>> döndürdük.
+        //Task<List<ProductWithCategoryDto>> GetProductsWithCategory();
+        Task<CustomResponseDto<List<ProductWithCategoryDto>>> GetProductsWithCategory();
     }
 }

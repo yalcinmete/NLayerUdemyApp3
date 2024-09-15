@@ -86,18 +86,22 @@ namespace NLayer.Caching
             {
                 throw new NotFoundException($"{typeof(Product).Name}({id}) not found");
             }
-            //veriyi cache'den aldığımız için asenkron bir işlem yapmadığımız için yukarıda bir await kullanmadığımız için await kullanmadığımız için bir async de koymak zorunda değiliz ama bizden bir Task<Product> bekliyor . Bu nedenle Task.FromResult kullanmak zorunda kaldık.
+            //veriyi cache'den aldığımız için asenkron bir işlem yapmadığımız için yukarıda bir await kullanmadığımız için bir async de koymak zorunda değiliz ama bizden bir Task<Product> bekliyor . Bu nedenle Task.FromResult kullanmak zorunda kaldık.
             return Task.FromResult(product);
         }
 
 
         //MVC projesinde artık customResponseDto kullanmıyoruz.
-        public Task<List<ProductWithCategoryDto>> GetProductsWithCategory()
+        //public Task<List<ProductWithCategoryDto>> GetProductsWithCategory()
+
+        //MVC-API haberleşme projesinde API açtığımız için Task<CustomResponseDto<List<ProductWithCategoryDto>>> dönmesi gerekiyor.
+        public Task<CustomResponseDto<List<ProductWithCategoryDto>>> GetProductsWithCategory()
         {
             var products = _memoryCache.Get<IEnumerable<Product>>(CacheProductKey);
             var productsWithCategoryDto = _mapper.Map<List<ProductWithCategoryDto>>(products);
 
-            return Task.FromResult(productsWithCategoryDto);
+            //return Task.FromResult(productsWithCategoryDto);
+            return Task.FromResult(CustomResponseDto<List<ProductWithCategoryDto>>.Succes(200, productsWithCategoryDto));
         }
 
         public async Task RemoveAsync(Product entity)

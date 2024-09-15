@@ -47,8 +47,8 @@ namespace NLayer.API.Modules
             //InstancePerLifetimeScope => Scope
             //InstancePerDependency   => transient 'e karşılık gelir
 
-
-            builder.RegisterType<ProductServiceWithCaching>().As<IProductService>();
+            //MVC-API projesinde veriyi cache'den değil normal okusun.ProductService'den okusun.Cache katmanını kullanma yani .
+            //builder.RegisterType<ProductServiceWithCaching>().As<IProductService>();
 
         }
     }

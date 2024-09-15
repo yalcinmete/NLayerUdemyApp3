@@ -7,6 +7,7 @@ using System.Reflection;
 using NLayerService.Mapping;
 using FluentValidation.AspNetCore;
 using NLayerService.Validations;
+using NLayer.Web.Services;
 
 namespace NLayer.Web
 {
@@ -27,6 +28,18 @@ namespace NLayer.Web
                     //option sebebi ; AppDbContext assembly'si API katmanýnda olmadýðý için, AppDbContext'in yerini EF'a söylüyoruz.
                     option.MigrationsAssembly(Assembly.GetAssembly(typeof(AppDbContext)).GetName().Name);
                 });
+            });
+
+            //MVC-API haberleþtirilmesi.Program.cs e yazarak(tabi öncesinde ProductApiService DI geçtik.) ProductApiService herhangibir classýn ctor'unda geçip istediðim gibi kullanabilirim. 
+            builder.Services.AddHttpClient<ProductApiService>(opt =>
+            {
+                opt.BaseAddress = new Uri(builder.Configuration["BaseUrl"]);
+            });
+
+            //MVC-API haberleþtirilmesi.Program.cs e yazarak(tabi öncesinde CategoryApýService DI geçtik.) CategoryApýService herhangibir classýn ctor'unda geçip istediðim gibi kullanabilirim. 
+            builder.Services.AddHttpClient<CategoryApýService>(opt =>
+            {
+                opt.BaseAddress = new Uri(builder.Configuration["BaseUrl"]);
             });
 
             //Filter'a DI geçiyorsan program.cs'de bunu belirtmelisin.
